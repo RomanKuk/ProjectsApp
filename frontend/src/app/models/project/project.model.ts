@@ -1,6 +1,6 @@
-import { User } from "../user/user";
-import { Team } from "../team/team";
-import { TaskModel } from "../task/task";
+import { User } from "../user/user.model";
+import { Team } from "../team/team.model";
+import { TaskModel } from "../task/task.model";
 
 export interface Project {
     id: number,

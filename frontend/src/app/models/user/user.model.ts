@@ -5,5 +5,5 @@ export interface User{
     email: string,
     birthday: Date,
     registeredAt: Date,
-    teamId: number
+    teamId: number | undefined
 }

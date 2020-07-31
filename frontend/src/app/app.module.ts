@@ -1,6 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
+import { AppRoutes } from './app.routes';
+
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -19,6 +23,8 @@ import { UsersComponent } from './components/users/users.component';
 import { UserListComponent } from './components/users/user-list/user-list.component';
 import { UserEditComponent } from './components/users/user-edit/user-edit.component';
 import { UserCreateComponent } from './components/users/user-create/user-create.component';
+import { ProjectDetailComponent } from './components/projects/project-detail/project-detail.component';
+import { ProjectItemComponent } from './components/projects/project-list/project-item/project-item.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +45,14 @@ import { UserCreateComponent } from './components/users/user-create/user-create.
     UsersComponent,
     UserListComponent,
     UserEditComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    ProjectDetailComponent,
+    ProjectItemComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    RouterModule.forRoot(AppRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -26,6 +26,8 @@ namespace WebAPI
             services.AddDbContext<ModelsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
             services.AddControllers();
 
+            services.AddCors();
+
             services.RegisterAutoMapper();
 
             services.RegisterCustomServices();
@@ -50,6 +52,13 @@ namespace WebAPI
             app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPI v1"));
 
             app.UseHttpsRedirection();
+
+            app.UseCors(builder => builder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithExposedHeaders("Token-Expired")
+                .AllowCredentials()
+                .WithOrigins("http://localhost:4200"));
 
             app.UseRouting();
 

@@ -1,5 +1,5 @@
-import { User } from "../user/user";
-import { TaskState } from "../task-state/task-state";
+import { User } from "../user/user.model";
+import { TaskState } from "../task-state/task-state.model";
 
 export interface TaskModel{
     id: number,

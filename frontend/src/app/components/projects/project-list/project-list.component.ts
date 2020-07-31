@@ -12,6 +12,7 @@ import { takeUntil } from 'rxjs/operators';
 export class ProjectListComponent implements OnInit {
   @Output() projectWasSelected = new EventEmitter<Project>();
   projects: Project[] = [];
+  firstProject: Project;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -38,8 +39,13 @@ export class ProjectListComponent implements OnInit {
         .subscribe(
             (resp) => {
                 this.projects = resp.body;
+                if(this.projects.length !== 0)
+                {
+                  this.firstProject = this.projects[0];
+                  this.onProjectSelected(this.firstProject);
+                }
             },
-            (error) => {console.error()}
+            () => {console.error()}
         );
 }
 

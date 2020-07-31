@@ -1,1 +1,15 @@
-<p>teams works!</p>
+<div class="row">
+    <div class="col-md-5">
+      <app-team-list
+        (teamWasSelected)="selectedTeam = $event"></app-team-list>
+    </div>
+    <div class="col-md-7">
+      <app-team-detail
+        *ngIf="selectedTeam; else infoText"
+        [team]="selectedTeam"></app-team-detail>
+      <ng-template #infoText>
+        <p>Please select a Team!</p>
+      </ng-template>
+    </div>
+  </div>
+    

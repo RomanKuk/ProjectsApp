@@ -1,1 +1,15 @@
-<p>users works!</p>
+<div class="row">
+    <div class="col-md-5">
+      <app-user-list
+        (userWasSelected)="selectedUser = $event"></app-user-list>
+    </div>
+    <div class="col-md-7">
+      <app-user-detail
+        *ngIf="selectedUser; else infoText"
+        [user]="selectedUser"></app-user-detail>
+      <ng-template #infoText>
+        <p>Please select a User!</p>
+      </ng-template>
+    </div>
+  </div>
+    

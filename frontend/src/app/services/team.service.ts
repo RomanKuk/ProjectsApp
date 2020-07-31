@@ -6,8 +6,8 @@ import { TeamEdit } from '../models/team/team-edit.model';
 import { TeamUsers } from '../models/function-models/team-users.model';
 
 @Injectable({ providedIn: 'root' })
-export class UserService {
-    public routePrefix = '/api/users';
+export class TeamService {
+    public routePrefix = '/api/teams';
 
     constructor(private httpService: HttpInternalService) { }
 

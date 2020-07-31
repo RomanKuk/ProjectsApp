@@ -25,6 +25,13 @@ import { UserEditComponent } from './components/users/user-edit/user-edit.compon
 import { UserCreateComponent } from './components/users/user-create/user-create.component';
 import { ProjectDetailComponent } from './components/projects/project-detail/project-detail.component';
 import { ProjectItemComponent } from './components/projects/project-list/project-item/project-item.component';
+import { TaskDetailComponent } from './components/tasks/task-detail/task-detail.component';
+import { TaskItemComponent } from './components/tasks/task-list/task-item/task-item.component';
+import { TeamItemComponent } from './components/teams/team-list/team-item/team-item.component';
+import { TeamDetailComponent } from './components/teams/team-detail/team-detail.component';
+import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
+import { UserItemComponent } from './components/users/user-list/user-item/user-item.component';
+import { DropdownDirective } from './shared/dropdown.directive';
 
 @NgModule({
   declarations: [
@@ -47,7 +54,14 @@ import { ProjectItemComponent } from './components/projects/project-list/project
     UserEditComponent,
     UserCreateComponent,
     ProjectDetailComponent,
-    ProjectItemComponent
+    ProjectItemComponent,
+    TaskDetailComponent,
+    TaskItemComponent,
+    TeamItemComponent,
+    TeamDetailComponent,
+    UserDetailComponent,
+    UserItemComponent,
+    DropdownDirective
   ],
   imports: [
     BrowserModule,

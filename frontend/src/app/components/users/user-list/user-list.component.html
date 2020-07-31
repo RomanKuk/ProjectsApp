@@ -1,1 +1,16 @@
-<p>user-list works!</p>
+<div class="row">
+    <div class="col-xs-12">
+      <!-- <button class="btn btn-success">New Recipe</button> -->
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <app-user-item
+        *ngFor="let userEl of users"
+        [user]="userEl"
+        (userSelected)="onUserSelected(userEl)"></app-user-item>
+    </div>
+  </div>
+  
+  

@@ -9,7 +9,7 @@ import { Project } from 'src/app/models/project/project.model';
 export class ProjectItemComponent implements OnInit {
   @Input() project: Project;
   @Output() projectSelected = new EventEmitter<void>();
-
+  
   constructor() { }
 
   ngOnInit() {

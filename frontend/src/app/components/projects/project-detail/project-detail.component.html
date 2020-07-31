@@ -6,7 +6,8 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <div class="btn-group">
+      <div class="btn-group"
+        appDropdown>
         <button
           type="button"
           class="btn btn-primary dropdown-toggle">
@@ -26,6 +27,7 @@
       <p>Deadline: {{ project.deadline }}</p>
       <p>Author: {{ project.author.firstName }} {{ project.author.lastName }}</p>
       <p>Team: {{ project.team.name }}</p>
+      <p>Tasks: {{ project.tasks.length }}</p>
     </div>
   </div>
   <!-- <div class="row">

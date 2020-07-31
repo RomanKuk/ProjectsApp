@@ -1,1 +1,16 @@
-<p>team-list works!</p>
+<div class="row">
+    <div class="col-xs-12">
+      <!-- <button class="btn btn-success">New Recipe</button> -->
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-xs-12">
+      <app-team-item
+        *ngFor="let teamEl of teams"
+        [team]="teamEl"
+        (teamSelected)="onTeamSelected(teamEl)"></app-team-item>
+    </div>
+  </div>
+  
+  

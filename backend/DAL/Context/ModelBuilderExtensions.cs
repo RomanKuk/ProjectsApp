@@ -12,8 +12,8 @@ namespace DAL.Context
         private const int USERS_COUNT = 100;
         private const int PROJECT_COUNT = 50;
         private const int TASKS_COUNT = 200;
-        private const int MAX_PROJECT_TEAM_NAME = 25;
-        private const int MAX_TASK_NAME = 100;
+        private const int MAX_PROJECT_TEAM_NAME = 100;
+        private const int MAX_TASK_NAME = 200;
         private const int MAX_FIRST_LAST_NAME = 25;
         private const int MAX_EMAIL = 60;
 
@@ -87,7 +87,7 @@ namespace DAL.Context
 
             var teamsFake = new Faker<Team>()
                 .RuleFor(p => p.Id, _ => teamId++)
-                .RuleFor(p => p.Name, f => f.Company.CompanyName(0))
+                .RuleFor(p => p.Name, f => f.Company.CompanyName())
                 .RuleFor(pi => pi.CreatedAt, f => f.Date.Between(new DateTime(2000, 1, 1), DateTime.Now));
 
             return teamsFake.Generate(TEAMS_COUNT);
@@ -115,7 +115,7 @@ namespace DAL.Context
 
             var projectsFake = new Faker<Project>()
                 .RuleFor(c => c.Id, _ => projectId++)
-                .RuleFor(c => c.Name, f => f.Commerce.Product())
+                .RuleFor(c => c.Name, f => f.Commerce.ProductName())
                 .RuleFor(c => c.Description, f => f.Lorem.Sentences())
                 .RuleFor(c => c.AuthorId, f => f.PickRandom(users).Id)
                 .RuleFor(c => c.TeamId, f => f.PickRandom(teams).Id)

@@ -28,6 +28,7 @@ namespace WebAPI
 
             services.AddCors();
 
+
             services.RegisterAutoMapper();
 
             services.RegisterCustomServices();

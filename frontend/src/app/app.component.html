@@ -1,11 +1,8 @@
-<app-header (featureSelected)="onNavigate($event)"></app-header>
+<app-header></app-header>
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <app-projects *ngIf="loadedFeature === 'projects'"></app-projects>
-      <app-tasks *ngIf="loadedFeature === 'tasks'"></app-tasks>
-      <app-teams *ngIf="loadedFeature === 'teams'"></app-teams>
-      <app-users *ngIf="loadedFeature === 'users'"></app-users>
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>

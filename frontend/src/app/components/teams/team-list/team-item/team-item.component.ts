@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Team } from '../../../../models/team/team.model';
+import { TeamService } from 'src/app/services/team.service';
 
 @Component({
   selector: 'app-team-item',
@@ -8,15 +9,14 @@ import { Team } from '../../../../models/team/team.model';
 })
 export class TeamItemComponent implements OnInit {
   @Input() team: Team;
-  @Output() teamSelected = new EventEmitter<void>();
 
-  constructor() { }
+  constructor(private teamService: TeamService) { }
 
   ngOnInit() {
   }
 
   onSelected() {
-    this.teamSelected.emit();
+    this.teamService.teamSelected.emit(this.team);
   }
 
 }

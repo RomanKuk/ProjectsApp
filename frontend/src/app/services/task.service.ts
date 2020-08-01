@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpInternalService } from './http-internal.service';
 import { TaskModel } from '../models/task/task.model';
 import { TaskModelCreate } from '../models/task/task-create.model';
@@ -11,6 +11,7 @@ import { UserTasks } from '../models/function-models/user-tasks.model';
 @Injectable({ providedIn: 'root' })
 export class TaskService {
     public routePrefix = '/api/tasks';
+    taskSelected = new EventEmitter<TaskModel>();
 
     constructor(private httpService: HttpInternalService) { }
 

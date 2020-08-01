@@ -3,6 +3,7 @@ import { Project } from 'src/app/models/project/project.model';
 import { ProjectService } from 'src/app/services/project.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-project-list',
@@ -10,13 +11,13 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
-  @Output() projectWasSelected = new EventEmitter<Project>();
   projects: Project[] = [];
-  firstProject: Project;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -28,10 +29,6 @@ export class ProjectListComponent implements OnInit {
     this.unsubscribe$.complete();
 }
 
-  onProjectSelected(project: Project) {
-   this.projectWasSelected.emit(project);
-  }
-
   public getProjects() {
     this.projectService
         .getProjects()
@@ -39,14 +36,13 @@ export class ProjectListComponent implements OnInit {
         .subscribe(
             (resp) => {
                 this.projects = resp.body;
-                if(this.projects.length !== 0)
-                {
-                  this.firstProject = this.projects[0];
-                  this.onProjectSelected(this.firstProject);
-                }
             },
             () => {console.error()}
         );
+}
+
+onNewProject() {
+  this.router.navigate(['new'], {relativeTo: this.route});
 }
 
 }

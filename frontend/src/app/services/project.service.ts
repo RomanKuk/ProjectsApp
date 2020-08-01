@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpInternalService } from './http-internal.service';
 import { Project } from '../models/project/project.model';
 import { ProjectCreate } from '../models/project/project-create.model';
@@ -8,6 +8,7 @@ import { ProjectTasks } from '../models/function-models/project-tasks.model';
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
     public routePrefix = '/api/projects';
+    projectSelected = new EventEmitter<Project>();
 
     constructor(private httpService: HttpInternalService) { }
 

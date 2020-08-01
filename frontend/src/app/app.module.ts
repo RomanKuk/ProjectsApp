@@ -1,9 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { AppRoutes } from './app.routes';
 
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './components/projects/projects.component';
@@ -32,6 +29,9 @@ import { TeamDetailComponent } from './components/teams/team-detail/team-detail.
 import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
 import { UserItemComponent } from './components/users/user-list/user-item/user-item.component';
 import { DropdownDirective } from './shared/dropdown.directive';
+import { ProjectStartComponent } from './components/projects/project-start/project-start.component';
+import { AppRoutingModule } from './app.routes';
+
 
 @NgModule({
   declarations: [
@@ -61,12 +61,13 @@ import { DropdownDirective } from './shared/dropdown.directive';
     TeamDetailComponent,
     UserDetailComponent,
     UserItemComponent,
-    DropdownDirective
+    DropdownDirective,
+    ProjectStartComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(AppRoutes)
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

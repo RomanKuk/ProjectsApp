@@ -10,9 +10,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./team-list.component.css']
 })
 export class TeamListComponent implements OnInit {
-  @Output() teamWasSelected = new EventEmitter<Team>();
   teams: Team[] = [];
-  firstTeam: Team;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -28,10 +26,6 @@ export class TeamListComponent implements OnInit {
     this.unsubscribe$.complete();
 }
 
-  onTeamSelected(team: Team) {
-   this.teamWasSelected.emit(team);
-  }
-
   public getTeams() {
     this.teamService
         .getTeams()
@@ -41,8 +35,7 @@ export class TeamListComponent implements OnInit {
                 this.teams = resp.body;
                 if(this.teams.length !== 0)
                 {
-                  this.firstTeam = this.teams[0];
-                  this.onTeamSelected(this.firstTeam);
+                  this.teamService.teamSelected.emit(this.teams[0]);
                 }
             },
             (error) => {console.error()}

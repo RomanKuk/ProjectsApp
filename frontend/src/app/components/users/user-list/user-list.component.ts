@@ -10,10 +10,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
-
-  @Output() userWasSelected = new EventEmitter<User>();
   users: User[] = [];
-  firstUser: User;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -29,10 +26,6 @@ export class UserListComponent implements OnInit {
     this.unsubscribe$.complete();
 }
 
-  onUserSelected(user: User) {
-   this.userWasSelected.emit(user);
-  }
-
   public getUsers() {
     this.userService
         .getUsers()
@@ -42,8 +35,7 @@ export class UserListComponent implements OnInit {
                 this.users = resp.body;
                 if(this.users.length !== 0)
                 {
-                  this.firstUser = this.users[0];
-                  this.onUserSelected(this.firstUser);
+                  this.userService.userSelected.emit(this.users[0]);
                 }
             },
             (error) => {console.error()}

@@ -10,9 +10,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit {
-  @Output() taskWasSelected = new EventEmitter<TaskModel>();
   tasks: TaskModel[] = [];
-  firstTask: TaskModel;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -28,10 +26,6 @@ export class TaskListComponent implements OnInit {
     this.unsubscribe$.complete();
 }
 
-  onTaskSelected(task: TaskModel) {
-   this.taskWasSelected.emit(task);
-  }
-
   public getTasks() {
     this.taskService
         .getTasks()
@@ -41,8 +35,7 @@ export class TaskListComponent implements OnInit {
                 this.tasks = resp.body;
                 if(this.tasks.length !== 0)
                 {
-                  this.firstTask = this.tasks[0];
-                  this.onTaskSelected(this.firstTask);
+                  this.taskService.taskSelected.emit(this.tasks[0]);
                 }
             },
             (error) => {console.error()}

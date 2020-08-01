@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from '../../../../models/user/user.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-item',
@@ -8,15 +9,14 @@ import { User } from '../../../../models/user/user.model';
 })
 export class UserItemComponent implements OnInit {
   @Input() user: User;
-  @Output() userSelected = new EventEmitter<void>();
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
   }
 
   onSelected() {
-    this.userSelected.emit();
+    this.userService.userSelected.emit(this.user);
   }
 
 }

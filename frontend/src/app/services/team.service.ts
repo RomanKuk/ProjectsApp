@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpInternalService } from './http-internal.service';
 import { Team } from '../models/team/team.model';
 import { TeamCreate } from '../models/team/team-create.model';
@@ -8,6 +8,7 @@ import { TeamUsers } from '../models/function-models/team-users.model';
 @Injectable({ providedIn: 'root' })
 export class TeamService {
     public routePrefix = '/api/teams';
+    teamSelected = new EventEmitter<Team>();
 
     constructor(private httpService: HttpInternalService) { }
 

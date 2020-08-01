@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpInternalService } from './http-internal.service';
 import { User } from '../models/user/user.model';
 import { UserCreate } from '../models/user/user-create.model';
@@ -7,6 +7,7 @@ import { UserEdit } from '../models/user/user-edit.model';
 @Injectable({ providedIn: 'root' })
 export class UserService {
     public routePrefix = '/api/users';
+    userSelected = new EventEmitter<User>();
 
     constructor(private httpService: HttpInternalService) { }
 

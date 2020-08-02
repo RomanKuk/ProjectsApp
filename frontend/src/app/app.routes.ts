@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-//import { AuthGuard } from './guards/auth.guard';
+// import { AuthGuard } from './guards/auth.guard';
 import { ProjectsComponent } from './modules/projects/components/projects.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { TeamsComponent } from './components/teams/teams.component';

@@ -1,4 +1,6 @@
+import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ProjectTasks } from '../models/function-models/project-tasks.model';
 import { ProjectCreate } from '../models/project/project-create.model';
 import { ProjectEdit } from '../models/project/project-edit.model';
@@ -11,33 +13,28 @@ export class ProjectService {
 
     constructor(private httpService: HttpInternalService) { }
 
-    public getProjects() {
+    public getProjects(): Observable<HttpResponse<Project[]>> {
         return this.httpService.getFullRequest<Project[]>(`${this.routePrefix}`);
     }
 
-    public getProjectById(projectId: number) {
+    public getProjectById(projectId: number): Observable<HttpResponse<Project>> {
         return this.httpService.getFullRequest<Project>(`${this.routePrefix}/${projectId}`);
     }
 
-    public createProject(project: ProjectCreate) {
+    public createProject(project: ProjectCreate): Observable<HttpResponse<Project>> {
         return this.httpService.postFullRequest<Project>(`${this.routePrefix}`, project);
     }
 
-    public updateProject(project: ProjectEdit) {
+    public updateProject(project: ProjectEdit): Observable<HttpResponse<Project>> {
         return this.httpService.putFullRequest<Project>(`${this.routePrefix}`, project);
     }
 
-    public deleteProjectById(projectId: number) {
+    public deleteProjectById(projectId: number): Observable<HttpResponse<void>> {
         return this.httpService.deleteFullRequest(`${this.routePrefix}/${projectId}`);
     }
 
-    public getNewProjectStructure()
+    public getNewProjectStructure(): Observable<HttpResponse<ProjectTasks[]>>
     {
         return this.httpService.getFullRequest<ProjectTasks[]>(`${this.routePrefix}/new-project-structure`);
-    }
-
-    public getUserProjectTasksCountByUserId(userId: number)
-    {
-        //return this.httpService.getFullRequest<ProjectTasks[]>(`${this.routePrefix}/project-tasks-count-by-user/${userId}`);
     }
 }

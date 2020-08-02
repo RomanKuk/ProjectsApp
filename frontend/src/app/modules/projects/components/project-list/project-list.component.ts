@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -10,9 +10,9 @@ import { ProjectService } from '../../../../services/project.service';
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css']
 })
-export class ProjectListComponent implements OnInit {
-  private unsubscribe$ = new Subject<void>();
+export class ProjectListComponent implements OnInit, OnDestroy {
   static projects: Project[] = [];
+  private unsubscribe$ = new Subject<void>();
 
   constructor(
     private projectService: ProjectService,
@@ -20,16 +20,16 @@ export class ProjectListComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getProjects();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
 }
 
-  public getProjects() {
+  public getProjects(): void {
     this.projectService
         .getProjects()
         .pipe(takeUntil(this.unsubscribe$))
@@ -37,15 +37,15 @@ export class ProjectListComponent implements OnInit {
             (resp) => {
                 ProjectListComponent.projects = resp.body;
             },
-            () => {console.error()}
+            () => {console.error(); }
         );
 }
 
-onNewProject() {
+onNewProject(): void {
   this.router.navigate(['new'], {relativeTo: this.route});
 }
 
-get getProjectsValue()
+get getProjectsValue(): Project[]
 {
   return ProjectListComponent.projects;
 }

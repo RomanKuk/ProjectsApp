@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,15 +11,15 @@ import { ProjectListComponent } from '../project-list/project-list.component';
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.css']
 })
-export class ProjectDetailComponent implements OnInit {
+export class ProjectDetailComponent implements OnInit, OnDestroy  {
   project: Project;
   private unsubscribe$ = new Subject<void>();
   id: number;
   dateOptions = {
-    weekday: "short",
-    year: "numeric",
-    month: "long",
-    day: "numeric"
+    weekday: 'short',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
 };
 
   constructor(
@@ -33,17 +33,17 @@ export class ProjectDetailComponent implements OnInit {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (params: Params) => {
-            this.getProject(+params['id']);
+            this.getProject(+params[`id`]);
         }
       );
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
-  public getProject(id: number) {
+  public getProject(id: number): void {
     this.projectService
         .getProjectById(id)
         .pipe(takeUntil(this.unsubscribe$))
@@ -51,25 +51,26 @@ export class ProjectDetailComponent implements OnInit {
             (resp) => {
                 this.project = resp.body;
             },
-            () => {console.error()}
+            () => {console.error(); }
     );
   }
 
-  onEditProject() {
+  onEditProject(): void {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
-  onDeleteProject() {
+  onDeleteProject(): void {
     this.projectService
       .deleteProjectById(this.project.id)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
       (resp) => {
-        let index = ProjectListComponent.projects.indexOf(this.project);
+        const index = ProjectListComponent.projects.indexOf(this.project);
         ProjectListComponent.projects.splice(index, 1);
         this.router.navigate(['../'], {relativeTo: this.route});
       },
-      () => {console.error()}
-  )};
+      () => {console.error(); }
+  );
+}
 
 }

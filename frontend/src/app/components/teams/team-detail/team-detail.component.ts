@@ -8,7 +8,7 @@ import { Team } from '../../../models/team/team.model';
 })
 export class TeamDetailComponent implements OnInit {
   @Input() team: Team;
-  
+
   constructor() { }
 
   ngOnInit(): void {

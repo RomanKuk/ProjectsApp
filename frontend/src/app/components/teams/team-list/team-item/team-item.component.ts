@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Team } from '../../../../models/team/team.model';
 import { TeamService } from 'src/app/services/team.service';
 
@@ -12,10 +12,10 @@ export class TeamItemComponent implements OnInit {
 
   constructor(private teamService: TeamService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  onSelected() {
+  onSelected(): void {
     this.teamService.teamSelected.emit(this.team);
   }
 

@@ -8,7 +8,7 @@ import { ProjectListComponent } from './components/project-list/project-list.com
 import { ProjectStartComponent } from './components/project-start/project-start.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AppRoutes } from '../../app.routes'
+import { AppRoutes } from '../../app.routes';
 import { SharedModule } from '../shared/shared.module';
 import { ProjectsComponent } from './components/projects.component';
 
@@ -30,11 +30,6 @@ import { ProjectsComponent } from './components/projects.component';
     SharedModule
   ],
   exports: [
-    // ProjectListComponent,
-    // ProjectDetailComponent,
-    // ProjectEditComponent,
-    // ProjectItemComponent,
-    // ProjectsComponent
   ]
 })
 export class ProjectsModule { }

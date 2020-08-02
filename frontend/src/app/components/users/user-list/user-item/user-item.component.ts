@@ -12,10 +12,10 @@ export class UserItemComponent implements OnInit {
 
   constructor(private userService: UserService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  onSelected() {
+  onSelected(): void {
     this.userService.userSelected.emit(this.user);
   }
 

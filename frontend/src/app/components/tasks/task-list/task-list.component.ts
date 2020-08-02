@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TaskModel } from 'src/app/models/task/task.model';
@@ -9,7 +9,7 @@ import { TaskService } from 'src/app/services/task.service';
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css']
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent implements OnInit, OnDestroy {
   tasks: TaskModel[] = [];
   private unsubscribe$ = new Subject<void>();
 
@@ -17,28 +17,28 @@ export class TaskListComponent implements OnInit {
     private taskService: TaskService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getTasks();
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
 }
 
-  public getTasks() {
+  public getTasks(): void {
     this.taskService
         .getTasks()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
             (resp) => {
                 this.tasks = resp.body;
-                if(this.tasks.length !== 0)
+                if (this.tasks.length !== 0)
                 {
                   this.taskService.taskSelected.emit(this.tasks[0]);
                 }
             },
-            (error) => {console.error()}
+            (error) => {console.error(); }
         );
 }
 }

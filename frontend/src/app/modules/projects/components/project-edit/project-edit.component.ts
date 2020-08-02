@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -18,14 +18,14 @@ import { ProjectListComponent } from '../project-list/project-list.component';
   templateUrl: './project-edit.component.html',
   styleUrls: ['./project-edit.component.css']
 })
-export class ProjectEditComponent implements OnInit {
+export class ProjectEditComponent implements OnInit, OnDestroy  {
   project: Project;
   users: User[];
   teams: Team[];
   projectForm: FormGroup;
   editMode = false;
   private unsubscribe$ = new Subject<void>();
-  
+
   constructor(
     private projectService: ProjectService,
     private teamService: TeamService,
@@ -39,17 +39,19 @@ export class ProjectEditComponent implements OnInit {
     .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (params: Params) => {
-            this.editMode = params['id'] != null;
+            this.editMode = params[`id`] != null;
             this.initFormCreate();
             this.getUsers();
             this.getTeams();
-            if(this.editMode)
-              this.getProject(+params['id']);
+            if (this.editMode)
+            {
+              this.getProject(+params[`id`]);
+            }
         }
-      )
+      );
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.editMode) {
       this.updateProject(this.project.id, this.projectForm);
     } else {
@@ -57,8 +59,8 @@ export class ProjectEditComponent implements OnInit {
     }
   }
 
-  onCancel(id: number = undefined) {
-    if(this.editMode)
+  onCancel(id: number = null): void {
+    if (this.editMode)
     {
       this.onCancelEdit();
     }
@@ -67,19 +69,19 @@ export class ProjectEditComponent implements OnInit {
     }
   }
 
-  onCancelEdit() {
+  onCancelEdit(): void {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
-  onCancelCreate(id: number) {
+  onCancelCreate(id: number): void {
     this.router.navigate([`../${id}`], {relativeTo: this.route});
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
-  public getProject(id: number) {
+  public getProject(id: number): void {
     this.projectService
         .getProjectById(id)
         .pipe(takeUntil(this.unsubscribe$))
@@ -88,33 +90,33 @@ export class ProjectEditComponent implements OnInit {
                 this.project = resp.body;
                 this.initFormEdit(this.project);
             },
-            () => {console.error()}
+            () => {console.error(); }
     );
   }
 
-  private initFormCreate() {
+  private initFormCreate(): void {
     this.projectForm = new FormGroup({
-      'name': new FormControl('', Validators.required),
-      'description' : new FormControl('', Validators.required),
-      'deadline' : new FormControl('', Validators.required),
-      'authorId' : new FormControl('', Validators.required),
-      'teamId' : new FormControl('', Validators.required)
+      name: new FormControl('', Validators.required),
+      description : new FormControl('', Validators.required),
+      deadline : new FormControl('', Validators.required),
+      authorId : new FormControl('', Validators.required),
+      teamId : new FormControl('', Validators.required)
     });
   }
 
-  private initFormEdit(project: Project) {
+  private initFormEdit(project: Project): void {
 
     this.projectForm = new FormGroup({
-      'name': new FormControl(project.name, Validators.required),
-      'description' : new FormControl(project.description, Validators.required),
-      'deadline' : new FormControl(new Date(project.deadline).toISOString().slice(0, 10), 
+      name: new FormControl(project.name, Validators.required),
+      description : new FormControl(project.description, Validators.required),
+      deadline : new FormControl(new Date(project.deadline).toISOString().slice(0, 10),
         Validators.required),
-      'authorId' : new FormControl(project.author.id, Validators.required),
-      'teamId' : new FormControl(project.team.id, Validators.required)
+      authorId : new FormControl(project.author.id, Validators.required),
+      teamId : new FormControl(project.team.id, Validators.required)
     });
  }
 
- public getTeams() {
+ public getTeams(): void {
   this.teamService
       .getTeams()
       .pipe(takeUntil(this.unsubscribe$))
@@ -122,11 +124,11 @@ export class ProjectEditComponent implements OnInit {
           (resp) => {
               this.teams = resp.body;
           },
-          () => {console.error()}
+          () => {console.error(); }
       );
 }
 
-public getUsers() {
+public getUsers(): void {
   this.userService
       .getUsers()
       .pipe(takeUntil(this.unsubscribe$))
@@ -134,33 +136,33 @@ public getUsers() {
           (resp) => {
               this.users = resp.body;
           },
-          () => {console.error()}
+          () => {console.error(); }
       );
 }
 
- private updateProject(id: number, formGroup: FormGroup)
+ private updateProject(id: number, formGroup: FormGroup): void
  {
     const updatedProject: ProjectEdit = formGroup.value;
     updatedProject.id = id;
-    updatedProject.authorId = Number(formGroup.value['authorId']),
-    updatedProject.teamId = Number(formGroup.value['teamId'])
+    updatedProject.authorId = Number(formGroup.value[`authorId`]),
+    updatedProject.teamId = Number(formGroup.value[`teamId`]);
 
     console.log(updatedProject);
     this.projectService.updateProject(updatedProject)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
-        let index = ProjectListComponent.projects.findIndex(p => p.id === resp.body.id);
+        const index = ProjectListComponent.projects.findIndex(p => p.id === resp.body.id);
         ProjectListComponent.projects[index] = resp.body;
         this.onCancel();
       },
-      (error) =>console.log(error));
+      (error) => console.log(error));
  }
- 
- private createProject(formGroup: FormGroup)
+
+ private createProject(formGroup: FormGroup): void
  {
     const createdProject: ProjectCreate = formGroup.value;
-    createdProject.authorId = Number(formGroup.value['authorId']),
-    createdProject.teamId = Number(formGroup.value['teamId']);
+    createdProject.authorId = Number(formGroup.value[`authorId`]),
+    createdProject.teamId = Number(formGroup.value[`teamId`]);
 
     this.projectService.createProject(createdProject)
       .pipe(takeUntil(this.unsubscribe$))
@@ -168,7 +170,7 @@ public getUsers() {
         ProjectListComponent.projects.push(resp.body);
         this.onCancel(resp.body.id);
       },
-      (error) =>console.log(error));
+      (error) => console.log(error));
  }
 
 }

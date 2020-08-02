@@ -12,10 +12,10 @@ export class TaskItemComponent implements OnInit {
 
   constructor(private taskService: TaskService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
-  onSelected() {
+  onSelected(): void {
     this.taskService.taskSelected.emit(this.task);
   }
 }

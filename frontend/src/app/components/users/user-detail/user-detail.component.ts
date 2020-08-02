@@ -8,7 +8,7 @@ import { User } from '../../../models/user/user.model';
 })
 export class UserDetailComponent implements OnInit {
   @Input() user: User;
-  
+
   constructor() { }
 
   ngOnInit(): void {

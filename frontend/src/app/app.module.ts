@@ -22,8 +22,8 @@ import { UserItemComponent } from './components/users/user-list/user-item/user-i
 import { UserListComponent } from './components/users/user-list/user-list.component';
 import { UsersComponent } from './components/users/users.component';
 
-import { ProjectsModule } from './modules/projects/projects.module'
-import { SharedModule } from './modules/shared/shared.module'
+import { ProjectsModule } from './modules/projects/projects.module';
+import { SharedModule } from './modules/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { DropdownDirective } from './modules/shared/directives/dropdown.directive';
 import { LocalizedDatePipe } from './modules/shared/pipes/localized-date.pipe';

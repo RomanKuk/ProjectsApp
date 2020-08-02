@@ -27,6 +27,7 @@ import { SharedModule } from './modules/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { DropdownDirective } from './modules/shared/directives/dropdown.directive';
 import { LocalizedDatePipe } from './modules/shared/pipes/localized-date.pipe';
+import { UnsavedChangesGuard } from './modules/shared/guards/unsaved-changes.guard';
 
 
 

@@ -1,29 +1,32 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ProjectCreate } from '../../../../models/project/project-create.model';
 import { ProjectEdit } from '../../../../models/project/project-edit.model';
 import { Project } from '../../../../models/project/project.model';
-import { Team } from '../../../..//models/team/team.model';
+import { Team } from '../../../../models/team/team.model';
 import { User } from '../../../../models/user/user.model';
 import { ProjectService } from '../../../../services/project.service';
 import { TeamService } from '../../../../services/team.service';
 import { UserService } from '../../../../services/user.service';
 import { ProjectListComponent } from '../project-list/project-list.component';
+import { ComponentCanDeactivate } from 'src/app/modules/shared/guards/unsaved-changes.guard';
 
 @Component({
   selector: 'app-project-edit',
   templateUrl: './project-edit.component.html',
   styleUrls: ['./project-edit.component.css']
 })
-export class ProjectEditComponent implements OnInit, OnDestroy  {
+
+export class ProjectEditComponent implements OnInit, OnDestroy, ComponentCanDeactivate  {
   project: Project;
   users: User[];
   teams: Team[];
   projectForm: FormGroup;
   editMode = false;
+  isChangesSaved = false;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -33,6 +36,11 @@ export class ProjectEditComponent implements OnInit, OnDestroy  {
     private route: ActivatedRoute,
     private router: Router
   ) { }
+
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    return !this.projectForm.dirty || this.isChangesSaved;
+  }
 
   ngOnInit(): void {
     this.route.params
@@ -153,6 +161,7 @@ public getUsers(): void {
       .subscribe((resp) => {
         const index = ProjectListComponent.projects.findIndex(p => p.id === resp.body.id);
         ProjectListComponent.projects[index] = resp.body;
+        this.isChangesSaved = true;
         this.onCancel();
       },
       (error) => console.log(error));
@@ -168,6 +177,7 @@ public getUsers(): void {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
         ProjectListComponent.projects.push(resp.body);
+        this.isChangesSaved = true;
         this.onCancel(resp.body.id);
       },
       (error) => console.log(error));

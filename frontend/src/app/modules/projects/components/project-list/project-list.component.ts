@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Project } from 'src/app/models/project/project.model';
-import { ProjectService } from 'src/app/services/project.service';
+import { Project } from '../../../../models/project/project.model';
+import { ProjectService } from '../../../../services/project.service';
 
 @Component({
   selector: 'app-project-list',
@@ -11,12 +11,8 @@ import { ProjectService } from 'src/app/services/project.service';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
-  //projects: Project[] = [];
-  @Input() newProject: Project;
-  //projectsChanged = new Subject<Project[]>();
   private unsubscribe$ = new Subject<void>();
   static projects: Project[] = [];
-  //static projectsChanged: any;
 
   constructor(
     private projectService: ProjectService,
@@ -53,9 +49,5 @@ get getProjectsValue()
 {
   return ProjectListComponent.projects;
 }
-// public static addProject(project: Project) {
-//   this.projects.push(project);
-//   this.projectsChanged.next(this.projects.slice());
-// }
 
 }

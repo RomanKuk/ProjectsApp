@@ -3,14 +3,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ProjectCreate } from 'src/app/models/project/project-create.model';
-import { ProjectEdit } from 'src/app/models/project/project-edit.model';
-import { Project } from 'src/app/models/project/project.model';
-import { Team } from 'src/app/models/team/team.model';
-import { User } from 'src/app/models/user/user.model';
-import { ProjectService } from 'src/app/services/project.service';
-import { TeamService } from 'src/app/services/team.service';
-import { UserService } from 'src/app/services/user.service';
+import { ProjectCreate } from '../../../../models/project/project-create.model';
+import { ProjectEdit } from '../../../../models/project/project-edit.model';
+import { Project } from '../../../../models/project/project.model';
+import { Team } from '../../../..//models/team/team.model';
+import { User } from '../../../../models/user/user.model';
+import { ProjectService } from '../../../../services/project.service';
+import { TeamService } from '../../../../services/team.service';
+import { UserService } from '../../../../services/user.service';
 import { ProjectListComponent } from '../project-list/project-list.component';
 
 @Component({

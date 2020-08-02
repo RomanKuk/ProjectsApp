@@ -1,8 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Project } from '../../models/project/project.model';
+import { Component, OnInit } from '@angular/core';
 import { ProjectService } from 'src/app/services/project.service';
-import { RecursiveTemplateAstVisitor } from '@angular/compiler';
-
 
 @Component({
   selector: 'app-projects',

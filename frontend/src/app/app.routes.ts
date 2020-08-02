@@ -1,15 +1,14 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ProjectDetailComponent } from './components/projects/project-detail/project-detail.component';
-import { ProjectEditComponent } from './components/projects/project-edit/project-edit.component';
-import { ProjectStartComponent } from './components/projects/project-start/project-start.component';
+import { Routes } from '@angular/router';
 //import { AuthGuard } from './guards/auth.guard';
-import { ProjectsComponent } from './components/projects/projects.component';
+import { ProjectsComponent } from './modules/projects/components/projects.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { TeamsComponent } from './components/teams/teams.component';
 import { UsersComponent } from './components/users/users.component';
+import { ProjectStartComponent } from './modules/projects/components/project-start/project-start.component';
+import { ProjectEditComponent } from './modules/projects/components/project-edit/project-edit.component';
+import { ProjectDetailComponent } from './modules/projects/components/project-detail/project-detail.component';
 
-const appRoutes: Routes = [
+export const AppRoutes: Routes = [
     { path: '', redirectTo: '/projects', pathMatch: 'full' },
     { path: 'projects', component: ProjectsComponent, children: [
         { path: '', component: ProjectStartComponent },
@@ -22,11 +21,3 @@ const appRoutes: Routes = [
     { path: 'users', component: UsersComponent, pathMatch: 'full' },
     { path: '**', redirectTo: '' }
 ];
-
-@NgModule({
-    imports: [RouterModule.forRoot(appRoutes)],
-    exports: [RouterModule]
-  })
-  export class AppRoutingModule {
-  
-  }

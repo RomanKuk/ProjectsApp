@@ -23,13 +23,12 @@
   <div class="row">
     <div class="col-xs-12">
       <p>{{ project?.description }}</p>
-      <p>Created at: {{ project?.createdAt | date:'d LLLL yyyy'}}</p>
-      <p>Deadline: {{ project?.deadline | date:'d LLLL yyyy'}}</p>
+      <p>Created at: {{ project?.createdAt | localizedDate }}</p>
+      <p>Deadline: {{ project?.deadline | localizedDate }}</p>
       <p>Author: <a href="#">{{ project?.author.firstName }} {{ project?.author.lastName }}</a></p>
       <p>Team: <a href="#">{{ project?.team.name }}</a></p>
       <p *ngIf="project?.tasks.length !== 0">Tasks:</p>
       <p *ngFor="let task of project?.tasks"><a href="#">{{ task.name }}</a></p>
-      <!-- | translate: {date: project?.createdAt | localizedDate} -->
     </div>
   </div>
   

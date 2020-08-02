@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
-import { Project } from 'src/app/models/project/project.model';
-import { ProjectService } from 'src/app/services/project.service';
 import { takeUntil } from 'rxjs/operators';
+import { Project } from '../../../../models/project/project.model';
+import { ProjectService } from '../../../../services/project.service';
 import { ProjectListComponent } from '../project-list/project-list.component';
 
 @Component({
@@ -16,15 +15,18 @@ export class ProjectDetailComponent implements OnInit {
   project: Project;
   private unsubscribe$ = new Subject<void>();
   id: number;
-  
+  dateOptions = {
+    weekday: "short",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+};
+
   constructor(
     private projectService: ProjectService,
-    // private translateService: TranslateService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    // this.translateService.use('en');
-   }
+  ) {}
 
   ngOnInit(): void {
     this.route.params

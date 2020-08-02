@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './components/projects/projects.component';
@@ -29,9 +31,14 @@ import { TeamDetailComponent } from './components/teams/team-detail/team-detail.
 import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
 import { UserItemComponent } from './components/users/user-list/user-item/user-item.component';
 import { DropdownDirective } from './shared/dropdown.directive';
+import { LocalizedDatePipe } from './shared/localized-date.pipe';
 import { ProjectStartComponent } from './components/projects/project-start/project-start.component';
 import { AppRoutingModule } from './app.routes';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+// export function createTranslateLoader(http: HttpClient) {
+//   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+// }
 
 @NgModule({
   declarations: [
@@ -62,12 +69,22 @@ import { AppRoutingModule } from './app.routes';
     UserDetailComponent,
     UserItemComponent,
     DropdownDirective,
-    ProjectStartComponent
+    ProjectStartComponent,
+    LocalizedDatePipe
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // TranslateModule.forRoot({
+    //   loader: {
+    //     provide: TranslateLoader,
+    //     useFactory: (createTranslateLoader),
+    //     deps: [HttpClient]
+    //   }
+    // })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,8 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Team } from 'src/app/models/team/team.model';
-import { TeamService } from 'src/app/services/team.service';
+import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Team } from 'src/app/models/team/team.model';
+import { TeamService } from 'src/app/services/team.service';
 
 @Component({
   selector: 'app-team-list',

@@ -1,14 +1,13 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { HttpInternalService } from './http-internal.service';
-import { Project } from '../models/project/project.model';
+import { Injectable } from '@angular/core';
+import { ProjectTasks } from '../models/function-models/project-tasks.model';
 import { ProjectCreate } from '../models/project/project-create.model';
 import { ProjectEdit } from '../models/project/project-edit.model';
-import { ProjectTasks } from '../models/function-models/project-tasks.model';
+import { Project } from '../models/project/project.model';
+import { HttpInternalService } from './http-internal.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
     public routePrefix = '/api/projects';
-    projectSelected = new EventEmitter<Project>();
 
     constructor(private httpService: HttpInternalService) { }
 

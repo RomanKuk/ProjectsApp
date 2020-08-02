@@ -1,1 +1,87 @@
-<p>project-edit works!</p>
+<div class="row fixed">
+    <div class="col-xs-12">
+      <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                class="form-control"
+                required maxlength="100">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea
+                  type="text"
+                  id="description"
+                  class="form-control"
+                  formControlName="description"
+                  rows="6"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="deadline">Deadline</label>
+                <input 
+                    type="date" 
+                    id="deadline" 
+                    formControlName="deadline"
+                    class="form-control"
+                    min="{{project?.createdAt | date:'yyyy-MM-dd'}}">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="authorId">Author</label>
+                    <select 
+                    id="authorId" 
+                    formControlName="authorId" 
+                    class="form-control">
+                        <option 
+                        *ngFor="let userEl of users" 
+                        [value]="userEl.id"
+                        [selected] = "userEl.id === project?.author.id">{{userEl.firstName + ' ' + userEl.lastName}}</option>
+                    </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="teamId">Team</label>
+                    <select 
+                    id="teamId" 
+                    formControlName="teamId" 
+                    class="form-control">
+                        <option 
+                        *ngFor="let teamEl of teams" 
+                        [value]="teamEl.id" 
+                        [selected] = "teamEl.id === project?.team.id">{{teamEl.name}}</option>
+                    </select>
+              </div>
+            </div>
+          </div>
+        <div class="row">
+            <div class="col-xs-12">
+            <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="!projectForm.valid">Save</button>
+                <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  

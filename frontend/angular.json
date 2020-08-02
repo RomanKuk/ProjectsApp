@@ -21,7 +21,8 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/i18n"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -79,6 +80,7 @@
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
+          "prefix": "app",
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
@@ -86,7 +88,8 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/assets/i18n"
             ],
             "styles": [
               "src/styles.css"

@@ -11,17 +11,10 @@ import { RecursiveTemplateAstVisitor } from '@angular/compiler';
   providers: [ProjectService]
 })
 export class ProjectsComponent implements OnInit {
-  selectedProject: Project;
 
-  constructor(private projectService: ProjectService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.projectService.projectSelected
-      .subscribe(
-        (project: Project) => {
-          this.selectedProject = project;
-        }
-      );
   }
 
 }

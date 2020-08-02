@@ -57,8 +57,6 @@ namespace WebAPI
             app.UseCors(builder => builder
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .WithExposedHeaders("Token-Expired")
-                .AllowCredentials()
                 .WithOrigins("http://localhost:4200"));
 
             app.UseRouting();

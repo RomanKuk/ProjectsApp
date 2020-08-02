@@ -1,8 +1,8 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { TaskModel } from 'src/app/models/task/task.model';
 import { TaskService } from 'src/app/services/task.service';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',

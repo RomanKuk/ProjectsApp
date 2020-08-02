@@ -1,14 +1,13 @@
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ProjectDetailComponent } from './components/projects/project-detail/project-detail.component';
+import { ProjectEditComponent } from './components/projects/project-edit/project-edit.component';
+import { ProjectStartComponent } from './components/projects/project-start/project-start.component';
 //import { AuthGuard } from './guards/auth.guard';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { TeamsComponent } from './components/teams/teams.component';
 import { UsersComponent } from './components/users/users.component';
-import { ProjectDetailComponent } from './components/projects/project-detail/project-detail.component';
-import { ProjectItemComponent } from './components/projects/project-list/project-item/project-item.component';
-import { ProjectStartComponent } from './components/projects/project-start/project-start.component';
-import { ProjectEditComponent } from './components/projects/project-edit/project-edit.component';
-import { NgModule } from '@angular/core';
 
 const appRoutes: Routes = [
     { path: '', redirectTo: '/projects', pathMatch: 'full' },

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -11,8 +11,12 @@ import { ProjectService } from 'src/app/services/project.service';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
-  projects: Project[] = [];
+  //projects: Project[] = [];
+  @Input() newProject: Project;
+  //projectsChanged = new Subject<Project[]>();
   private unsubscribe$ = new Subject<void>();
+  static projects: Project[] = [];
+  //static projectsChanged: any;
 
   constructor(
     private projectService: ProjectService,
@@ -35,7 +39,7 @@ export class ProjectListComponent implements OnInit {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
             (resp) => {
-                this.projects = resp.body;
+                ProjectListComponent.projects = resp.body;
             },
             () => {console.error()}
         );
@@ -44,5 +48,14 @@ export class ProjectListComponent implements OnInit {
 onNewProject() {
   this.router.navigate(['new'], {relativeTo: this.route});
 }
+
+get getProjectsValue()
+{
+  return ProjectListComponent.projects;
+}
+// public static addProject(project: Project) {
+//   this.projects.push(project);
+//   this.projectsChanged.next(this.projects.slice());
+// }
 
 }

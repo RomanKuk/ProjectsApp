@@ -4,6 +4,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
 import { Project } from 'src/app/models/project/project.model';
 import { ProjectService } from 'src/app/services/project.service';
+import { takeUntil } from 'rxjs/operators';
+import { ProjectListComponent } from '../project-list/project-list.component';
 
 @Component({
   selector: 'app-project-detail',
@@ -26,6 +28,7 @@ export class ProjectDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (params: Params) => {
             this.getProject(+params['id']);
@@ -41,6 +44,7 @@ export class ProjectDetailComponent implements OnInit {
   public getProject(id: number) {
     this.projectService
         .getProjectById(id)
+        .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
             (resp) => {
                 this.project = resp.body;
@@ -52,5 +56,18 @@ export class ProjectDetailComponent implements OnInit {
   onEditProject() {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
+
+  onDeleteProject() {
+    this.projectService
+      .deleteProjectById(this.project.id)
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+      (resp) => {
+        let index = ProjectListComponent.projects.indexOf(this.project);
+        ProjectListComponent.projects.splice(index, 1);
+        this.router.navigate(['../'], {relativeTo: this.route});
+      },
+      () => {console.error()}
+  )};
 
 }

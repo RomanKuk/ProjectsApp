@@ -11,6 +11,7 @@ import { User } from 'src/app/models/user/user.model';
 import { ProjectService } from 'src/app/services/project.service';
 import { TeamService } from 'src/app/services/team.service';
 import { UserService } from 'src/app/services/user.service';
+import { ProjectListComponent } from '../project-list/project-list.component';
 
 @Component({
   selector: 'app-project-edit',
@@ -24,7 +25,6 @@ export class ProjectEditComponent implements OnInit {
   projectForm: FormGroup;
   editMode = false;
   private unsubscribe$ = new Subject<void>();
-  id: number;
   
   constructor(
     private projectService: ProjectService,
@@ -40,7 +40,7 @@ export class ProjectEditComponent implements OnInit {
       .subscribe(
         (params: Params) => {
             this.editMode = params['id'] != null;
-            this.init();
+            this.initFormCreate();
             this.getUsers();
             this.getTeams();
             if(this.editMode)
@@ -57,8 +57,21 @@ export class ProjectEditComponent implements OnInit {
     }
   }
 
-  onCancel() {
+  onCancel(id: number = undefined) {
+    if(this.editMode)
+    {
+      this.onCancelEdit();
+    }
+    else {
+      this.onCancelCreate(id);
+    }
+  }
+
+  onCancelEdit() {
     this.router.navigate(['../'], {relativeTo: this.route});
+  }
+  onCancelCreate(id: number) {
+    this.router.navigate([`../${id}`], {relativeTo: this.route});
   }
 
   public ngOnDestroy() {
@@ -73,13 +86,13 @@ export class ProjectEditComponent implements OnInit {
         .subscribe(
             (resp) => {
                 this.project = resp.body;
-                this.initForm(this.project);
+                this.initFormEdit(this.project);
             },
             () => {console.error()}
     );
   }
 
-  private init() {
+  private initFormCreate() {
     this.projectForm = new FormGroup({
       'name': new FormControl('', Validators.required),
       'description' : new FormControl('', Validators.required),
@@ -89,7 +102,7 @@ export class ProjectEditComponent implements OnInit {
     });
   }
 
-  private initForm(project: Project) {
+  private initFormEdit(project: Project) {
 
     this.projectForm = new FormGroup({
       'name': new FormControl(project.name, Validators.required),
@@ -136,6 +149,8 @@ public getUsers() {
     this.projectService.updateProject(updatedProject)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
+        let index = ProjectListComponent.projects.findIndex(p => p.id === resp.body.id);
+        ProjectListComponent.projects[index] = resp.body;
         this.onCancel();
       },
       (error) =>console.log(error));
@@ -150,9 +165,10 @@ public getUsers() {
     this.projectService.createProject(createdProject)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
-        this.onCancel();
+        ProjectListComponent.projects.push(resp.body);
+        this.onCancel(resp.body.id);
       },
-          (error) =>console.log(error));
+      (error) =>console.log(error));
  }
 
 }

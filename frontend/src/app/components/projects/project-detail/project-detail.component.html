@@ -15,7 +15,7 @@
         </button>
         <ul class="dropdown-menu">
           <li><a (click)="onEditProject()">Edit Project</a></li>
-          <li><a href="#">Delete Project</a></li>
+          <li><a (click)="onDeleteProject()">Delete Project</a></li>
         </ul>
       </div>
     </div>
@@ -27,7 +27,7 @@
       <p>Deadline: {{ project?.deadline | date:'d LLLL yyyy'}}</p>
       <p>Author: <a href="#">{{ project?.author.firstName }} {{ project?.author.lastName }}</a></p>
       <p>Team: <a href="#">{{ project?.team.name }}</a></p>
-      <p>Tasks:</p>
+      <p *ngIf="project?.tasks.length !== 0">Tasks:</p>
       <p *ngFor="let task of project?.tasks"><a href="#">{{ task.name }}</a></p>
       <!-- | translate: {date: project?.createdAt | localizedDate} -->
     </div>

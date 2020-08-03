@@ -1,127 +1,98 @@
 <div class="row fixed">
     <div class="col-xs-12">
-      <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                formControlName="name"
-                class="form-control"
-                required maxlength="200"
-                required minlength="4">
-                <div class="error" [hidden]="taskForm.get('name').valid && taskForm.get('name').untouched || !taskForm.get('name').errors?.required">
-                  Name is required
-                </div>
-                <div class="error" *ngIf="taskForm.get('name').errors?.minlength">
-                  Name must be at least 4 characters long
+        <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" formControlName="name" class="form-control" required
+                            maxlength="200" required minlength="4">
+                        <div class="error"
+                            [hidden]="taskForm.get('name').valid && taskForm.get('name').untouched || !taskForm.get('name').errors?.required">
+                            Name is required
+                        </div>
+                        <div class="error" *ngIf="taskForm.get('name').errors?.minlength">
+                            Name must be at least 4 characters long
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12">
-              <div class="form-group">
-                <label for="description">Description</label>
-                <textarea
-                  type="text"
-                  id="description"
-                  class="form-control"
-                  formControlName="description"
-                  rows="6"></textarea>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="form-group">
-                <label for="finishedAt">Finished at</label>
-                <input 
-                    type="date" 
-                    id="finishedAt" 
-                    formControlName="finishedAt"
-                    class="form-control"
-                    min="{{(editMode ? task?.createdAt : today) | date:'yyyy-MM-dd'}}">
-                <div class="error" [hidden]="taskForm.get('finishedAt').valid && taskForm.get('finishedAt').untouched || !taskForm.get('finishedAt').errors?.required">
-                    Finished date is required
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea type="text" id="description" class="form-control" formControlName="description"
+                            rows="6"></textarea>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="row" *ngIf="editMode">
-            <div class="col-xs-12">
-              <div class="form-group">
-                <label for="state">State</label>
-                    <select 
-                    id="state" 
-                    formControlName="state" 
-                    class="form-control">
-                        <option 
-                        *ngFor="let item of keys(states)"
-                        [value]="states[item]"
-                        [selected] = "task?.state === states[item]">
-                            {{item}}
-                        </option>
-                        <!-- numbers value -->
-                    </select>
-                    <div class="error" [hidden]="taskForm.get('state').valid && taskForm.get('state').untouched || !taskForm.get('state').errors?.required">
-                        State is required
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="finishedAt">Finished at</label>
+                        <input type="date" id="finishedAt" formControlName="finishedAt" class="form-control"
+                            min="{{(editMode ? task?.createdAt : today) | date:'yyyy-MM-dd'}}">
+                        <div class="error"
+                            [hidden]="taskForm.get('finishedAt').valid && taskForm.get('finishedAt').untouched || !taskForm.get('finishedAt').errors?.required">
+                            Finished date is required
+                        </div>
                     </div>
-              </div>
+                </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="form-group">
-                <label for="performerId">Performer</label>
-                    <select 
-                    id="performerId" 
-                    formControlName="performerId" 
-                    class="form-control">
-                        <option 
-                        *ngFor="let userEl of users" 
-                        [value]="userEl.id"
-                        [selected] = "userEl.id === task?.performer.id">{{userEl.firstName + ' ' + userEl.lastName}}</option>
-                    </select>
-                    <div class="error" [hidden]="taskForm.get('performerId').valid && taskForm.get('performerId').untouched || !taskForm.get('performerId').errors?.required">
-                        Performer is required
+            <div class="row" *ngIf="editMode">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <select id="state" formControlName="state" class="form-control">
+                            <option *ngFor="let item of states | enumKeyValue" [value]="item.key"
+                                [selected]="task?.state === item.key">
+                                {{item.value}}
+                            </option>
+                        </select>
+                        <div class="error"
+                            [hidden]="taskForm.get('state').valid && taskForm.get('state').untouched || !taskForm.get('state').errors?.required">
+                            State is required
+                        </div>
                     </div>
-              </div>
+                </div>
             </div>
-          </div>
-          <div class="row" *ngIf="!editMode">
-            <div class="col-xs-12">
-              <div class="form-group">
-                <label for="projectId">Projects</label>
-                    <select 
-                    id="projectId" 
-                    formControlName="projectId" 
-                    class="form-control">
-                        <option 
-                        *ngFor="let projectEl of projects" 
-                        [value]="projectEl.id" >{{projectEl.name}}</option>
-                    </select>
-                    <div class="error" [hidden]="taskForm.get('projectId').valid && taskForm.get('projectId').untouched || !taskForm.get('projectId').errors?.required">
-                        Project is required
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="performerId">Performer</label>
+                        <select id="performerId" formControlName="performerId" class="form-control">
+                            <option *ngFor="let userEl of users" [value]="userEl.id"
+                                [selected]="userEl.id === task?.performer.id">
+                                {{userEl.firstName + ' ' + userEl.lastName}}</option>
+                        </select>
+                        <div class="error"
+                            [hidden]="taskForm.get('performerId').valid && taskForm.get('performerId').untouched || !taskForm.get('performerId').errors?.required">
+                            Performer is required
+                        </div>
                     </div>
-              </div>
+                </div>
             </div>
-          </div>
-        <div class="row">
-            <div class="col-xs-12 buttons">
-            <button
-                type="submit"
-                class="btn btn-success"
-                [disabled]="!taskForm.valid">Save</button>
-                <button 
-                    type="button"
-                    class="btn btn-danger" 
-                    (click)="onCancel(undefined)">Cancel</button>
+            <div class="row" *ngIf="!editMode">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label for="projectId">Projects</label>
+                        <select id="projectId" formControlName="projectId" class="form-control">
+                            <option *ngFor="let projectEl of projects" [value]="projectEl.id">{{projectEl.name}}
+                            </option>
+                        </select>
+                        <div class="error"
+                            [hidden]="taskForm.get('projectId').valid && taskForm.get('projectId').untouched || !taskForm.get('projectId').errors?.required">
+                            Project is required
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-      </form>
+            <div class="row">
+                <div class="col-xs-12 buttons">
+                    <button type="submit" class="btn btn-success" [disabled]="!taskForm.valid">Save</button>
+                    <button type="button" class="btn btn-danger" (click)="onCancel(undefined)">Cancel</button>
+                </div>
+            </div>
+        </form>
     </div>
-  </div>
-  
+</div>

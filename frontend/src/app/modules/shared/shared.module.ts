@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoutes } from 'src/app/app.routes';
 import { TaskStatusColorDirective } from './directives/task-status-color.directive';
 import { TaskStatusStringPipe } from './pipes/task-status-string.pipe';
+import { EnumKeyValuePipe } from './pipes/enum-key-value.pipe';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { TaskStatusStringPipe } from './pipes/task-status-string.pipe';
     DropdownDirective,
     HeaderComponent,
     TaskStatusColorDirective,
-    TaskStatusStringPipe
+    TaskStatusStringPipe,
+    EnumKeyValuePipe
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { TaskStatusStringPipe } from './pipes/task-status-string.pipe';
     DropdownDirective,
     HeaderComponent,
     TaskStatusColorDirective,
-    TaskStatusStringPipe
+    TaskStatusStringPipe,
+    EnumKeyValuePipe
   ],
   providers: [ UnsavedChangesGuard, MatSnackBar ]
 })

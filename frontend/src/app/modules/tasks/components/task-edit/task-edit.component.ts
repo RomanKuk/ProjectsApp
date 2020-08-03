@@ -130,11 +130,11 @@ export class TaskEditComponent implements OnInit, OnDestroy, ComponentCanDeactiv
     this.taskForm = new FormGroup({
       name: new FormControl(task.name, Validators.required),
       description : new FormControl(task.description, Validators.required),
-      finishedAt : new FormControl(new Date(task.finishedAt).toISOString().slice(0, 10),
+      finishedAt : new FormControl(new Date(task.finishedAt).toLocaleDateString('en-CA'),
         Validators.required),
       state : new FormControl(task.state, Validators.required),
       performerId : new FormControl(task.performer.id, Validators.required),
-      projectId : new FormControl('', Validators.required)
+      projectId : new FormControl(task.projectId, Validators.required)
     });
  }
 
@@ -166,19 +166,19 @@ public getProjects(): void {
  {
     const updatedTask: TaskModelEdit = formGroup.value;
     updatedTask.id = id;
+    updatedTask.state = Number(formGroup.value[`state`]);
     updatedTask.performerId = Number(formGroup.value[`performerId`]),
     updatedTask.projectId = this.task.projectId;
 
-    console.log(updatedTask);
     this.taskService.updateTask(updatedTask)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
-        const index = this.taskListComponent.tasks.findIndex(p => p.id === resp.body.id);
-        this.taskListComponent.tasks[index] = resp.body;
+        const index = TaskListComponent.tasks.findIndex(p => p.id === resp.body.id);
+        TaskListComponent.tasks[index] = resp.body;
         this.isChangesSaved = true;
         this.onCancel();
       },
-      (error) => console.log(error));
+      (error) => {this.snackbarService.showErrorMessage(error.message); });
  }
 
  private createTask(formGroup: FormGroup): void
@@ -190,11 +190,11 @@ public getProjects(): void {
     this.taskService.createTask(createdTask)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
-        this.taskListComponent.tasks.push(resp.body);
+        TaskListComponent.tasks.push(resp.body);
         this.isChangesSaved = true;
         this.onCancel(resp.body.id);
       },
-      (error) => console.log(error));
+      (error) => {this.snackbarService.showErrorMessage(error.message); });
  }
 
 }

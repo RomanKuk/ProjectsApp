@@ -25,15 +25,15 @@
       <p>{{ project?.description }}</p>
       <p>Created at: {{ project?.createdAt | localizedDate }}</p>
       <p>Deadline: {{ project?.deadline | localizedDate }}</p>
-      <p>Author: <a href="#">{{ project?.author.firstName }} {{ project?.author.lastName }}</a></p>
-      <p>Team: <a href="#">{{ project?.team.name }}</a></p>
+      <p>Author: <a [routerLink]="['/users', project?.author.id]">{{ project?.author.firstName }} {{ project?.author.lastName }}</a></p>
+      <p>Team: <a [routerLink]="['/teams', project?.team.id]">{{ project?.team.name }}</a></p>
       <p *ngIf="project?.tasks.length !== 0">Tasks:</p>
       <p class="tasks" *ngFor="let task of project?.tasks">
-          <svg height="16" width="16">
-            <circle cx="8" cy="8" r="6" [appTaskStatusColor]=task.state />
-          </svg>
+        <span class="material-icons" [appTaskStatusColor]=task.state>
+          fiber_manual_record
+          </span>
           {{task.state | taskStatusString}}:
-        <a href="#">{{ task.name }}</a></p>
+        <a [routerLink]="['/tasks', task.id]">{{ task.name }}</a></p>
     </div>
   </div>
   

@@ -15,3 +15,8 @@ a {
 .tasks {
     margin-left: 15px;
 }
+
+.material-icons {
+    font-size: 18px;
+    margin-right: 5px;
+}

@@ -6,6 +6,8 @@ import { TeamListComponent } from '../team-list/team-list.component';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { Project } from 'src/app/models/project/project.model';
+import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
   selector: 'app-team-detail',
@@ -14,12 +16,13 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
 })
 export class TeamDetailComponent implements OnInit, OnDestroy {
   team: Team;
+  projects: Project[];
   private unsubscribe$ = new Subject<void>();
   id: number;
 
   constructor(
     private teamService: TeamService,
-    private teamListComponent: TeamListComponent,
+    private projectService: ProjectService,
     private snackbarService: SnackBarService,
     private route: ActivatedRoute,
     private router: Router
@@ -47,6 +50,7 @@ export class TeamDetailComponent implements OnInit, OnDestroy {
         .subscribe(
             (resp) => {
                 this.team = resp.body;
+                this.getProjects();
             },
             (error) => {this.snackbarService.showErrorMessage(error.message); }
     );
@@ -62,11 +66,23 @@ export class TeamDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
       (resp) => {
-        const index = this.teamListComponent.teams.indexOf(this.team);
-        this.teamListComponent.teams.splice(index, 1);
+        const index = TeamListComponent.teams.indexOf(this.team);
+        TeamListComponent.teams.splice(index, 1);
         this.router.navigate(['../'], {relativeTo: this.route});
       },
       (error) => {this.snackbarService.showErrorMessage(error.message); }
   );
+}
+
+public getProjects(): void {
+  this.projectService
+      .getProjects()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+          (resp) => {
+              this.projects = resp.body.filter(item => item.team.id === this.team.id);
+          },
+          (error) => {this.snackbarService.showErrorMessage(error.message); }
+      );
 }
 }

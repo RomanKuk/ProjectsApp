@@ -6,11 +6,8 @@
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <div class="btn-group"
-        appDropdown>
-        <button
-          type="button"
-          class="btn btn-primary dropdown-toggle">
+      <div class="btn-group" appDropdown>
+        <button type="button" class="btn btn-primary dropdown-toggle">
           Manage Task <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
@@ -25,14 +22,11 @@
       <p>{{ task?.description }}</p>
       <p>Created at: {{ task?.createdAt | localizedDate }}</p>
       <p>Finished at: {{ task?.finishedAt | localizedDate }}</p>
-      <p>State: 
-        <svg height="16" width="16">
-          <circle cx="8" cy="8" r="6" [appTaskStatusColor]=task?.state />
-          <!-- color doesnt change -->
-        </svg>
+      <p>State:
         {{task?.state | taskStatusString}}
       </p>
-      <p>Performer: <a href="#">{{ task?.performer.firstName }} {{ task?.performer.lastName }}</a></p>
-      <p>Project: <a href="#">{{ project?.name }}</a></p>
+      <p>Performer: <a [routerLink]="['/users', task?.performer.id]">{{ task?.performer.firstName }}
+          {{ task?.performer.lastName }}</a></p>
+      <p>Project: <a [routerLink]="['/projects', project?.id]">{{ project?.name }}</a></p>
     </div>
   </div>

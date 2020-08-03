@@ -1,106 +1,80 @@
 <div class="row fixed">
-    <div class="col-xs-12">
-      <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-xs-12">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                formControlName="name"
-                class="form-control"
-                required maxlength="100"
-                required minlength="4">
-                <div class="error" [hidden]="projectForm.get('name').valid && projectForm.get('name').untouched || !projectForm.get('name').errors?.required">
-                  Name is required
-                </div>
-                <div class="error" *ngIf="projectForm.get('name').errors?.minlength">
-                  Name must be at least 4 characters long
-                </div>
+  <div class="col-xs-12">
+    <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" formControlName="name" class="form-control" required maxlength="100" required
+              minlength="4">
+            <div class="error"
+              [hidden]="projectForm.get('name').valid && projectForm.get('name').untouched || !projectForm.get('name').errors?.required">
+              Name is required
+            </div>
+            <div class="error" *ngIf="projectForm.get('name').errors?.minlength">
+              Name must be at least 4 characters long
             </div>
           </div>
         </div>
-        <div class="row">
-            <div class="col-xs-12">
-              <div class="form-group">
-                <label for="description">Description</label>
-                <textarea
-                  type="text"
-                  id="description"
-                  class="form-control"
-                  formControlName="description"
-                  rows="6"></textarea>
-              </div>
-            </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea type="text" id="description" class="form-control" formControlName="description"
+              rows="6"></textarea>
           </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="form-group">
-                <label for="deadline">Deadline</label>
-                <input 
-                    type="date" 
-                    id="deadline" 
-                    formControlName="deadline"
-                    class="form-control"
-                    min="{{(editMode ? project?.createdAt : today) | date:'yyyy-MM-dd'}}">
-                <div class="error" [hidden]="projectForm.get('deadline').valid && projectForm.get('deadline').untouched || !projectForm.get('deadline').errors?.required">
-                  Deadline date is required
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="form-group">
-                <label for="authorId">Author</label>
-                    <select 
-                    id="authorId" 
-                    formControlName="authorId" 
-                    class="form-control">
-                        <option 
-                        *ngFor="let userEl of users" 
-                        [value]="userEl.id"
-                        [selected] = "userEl.id === project?.author.id">{{userEl.firstName + ' ' + userEl.lastName}}</option>
-                    </select>
-                    <div class="error" [hidden]="projectForm.get('authorId').valid && projectForm.get('authorId').untouched || !projectForm.get('authorId').errors?.required">
-                      Author is required
-                    </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <div class="form-group">
-                <label for="teamId">Team</label>
-                    <select 
-                    id="teamId" 
-                    formControlName="teamId" 
-                    class="form-control">
-                        <option 
-                        *ngFor="let teamEl of teams" 
-                        [value]="teamEl.id" 
-                        [selected] = "teamEl.id === project?.team.id">{{teamEl.name}}</option>
-                    </select>
-                    <div class="error" [hidden]="projectForm.get('teamId').valid && projectForm.get('teamId').untouched || !projectForm.get('teamId').errors?.required">
-                      Team is required
-                    </div>
-              </div>
-            </div>
-          </div>
-        <div class="row">
-            <div class="col-xs-12 buttons">
-            <button
-                type="submit"
-                class="btn btn-success"
-                [disabled]="!projectForm.valid">Save</button>
-                <button 
-                    type="button"
-                    class="btn btn-danger" 
-                    (click)="onCancel(undefined)">Cancel</button>
-            </div>
         </div>
-      </form>
-    </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="deadline">Deadline</label>
+            <input type="date" id="deadline" formControlName="deadline" class="form-control"
+              min="{{(editMode ? project?.createdAt : today) | date:'yyyy-MM-dd'}}">
+            <div class="error"
+              [hidden]="projectForm.get('deadline').valid && projectForm.get('deadline').untouched || !projectForm.get('deadline').errors?.required">
+              Deadline date is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="authorId">Author</label>
+            <select id="authorId" formControlName="authorId" class="form-control">
+              <option *ngFor="let userEl of users" [value]="userEl.id" [selected]="userEl.id === project?.author.id">
+                {{userEl.firstName + ' ' + userEl.lastName}}</option>
+            </select>
+            <div class="error"
+              [hidden]="projectForm.get('authorId').valid && projectForm.get('authorId').untouched || !projectForm.get('authorId').errors?.required">
+              Author is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="teamId">Team</label>
+            <select id="teamId" formControlName="teamId" class="form-control">
+              <option *ngFor="let teamEl of teams" [value]="teamEl.id" [selected]="teamEl.id === project?.team.id">
+                {{teamEl.name}}</option>
+            </select>
+            <div class="error"
+              [hidden]="projectForm.get('teamId').valid && projectForm.get('teamId').untouched || !projectForm.get('teamId').errors?.required">
+              Team is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 buttons">
+          <button type="submit" class="btn btn-success" [disabled]="!projectForm.valid">Save</button>
+          <button type="button" class="btn btn-danger" (click)="onCancel(undefined)">Cancel</button>
+        </div>
+      </div>
+    </form>
   </div>
-  
+</div>

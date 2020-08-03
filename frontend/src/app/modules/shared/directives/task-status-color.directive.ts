@@ -10,9 +10,8 @@ export class TaskStatusColorDirective {
   constructor(private el: ElementRef) { }
 
   private setColor(color: string): void {
-    this.el.nativeElement.style.fill = color;
+    this.el.nativeElement.style.color = color;
   }
-  // @HostListener('DOMSubtreeModified')
 
   @HostListener('DOMSubtreeModified')
   onTaskStatusChange(): void

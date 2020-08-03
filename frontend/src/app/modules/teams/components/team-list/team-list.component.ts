@@ -12,7 +12,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./team-list.component.css']
 })
 export class TeamListComponent implements OnInit, OnDestroy {
-  teams: Team[] = [];
+  static teams: Team[] = [];
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -37,7 +37,7 @@ export class TeamListComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
             (resp) => {
-                this.teams = resp.body;
+                TeamListComponent.teams = resp.body;
             },
             (error) => {this.snackbarService.showErrorMessage(error.message); }
         );
@@ -45,5 +45,10 @@ export class TeamListComponent implements OnInit, OnDestroy {
 
 onNewTeam(): void {
   this.router.navigate(['new'], {relativeTo: this.route});
+}
+
+get getTeamsValue(): Team[]
+{
+  return TeamListComponent.teams;
 }
 }

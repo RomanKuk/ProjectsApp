@@ -12,7 +12,7 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
-  projects: Project[] = [];
+  static projects: Project[] = [];
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -37,7 +37,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
             (resp) => {
-                this.projects = resp.body;
+                ProjectListComponent.projects = resp.body;
             },
             (error) => {this.snackbarService.showErrorMessage(error.message); }
         );
@@ -45,6 +45,11 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
 onNewProject(): void {
   this.router.navigate(['new'], {relativeTo: this.route});
+}
+
+get getProjectsValue(): Project[]
+{
+  return ProjectListComponent.projects;
 }
 
 }

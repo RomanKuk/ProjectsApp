@@ -12,7 +12,7 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
   styleUrls: ['./task-list.component.css']
 })
 export class TaskListComponent implements OnInit, OnDestroy {
-  tasks: TaskModel[] = [];
+  static tasks: TaskModel[] = [];
   private unsubscribe$ = new Subject<void>();
 
   constructor(
@@ -37,7 +37,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
             (resp) => {
-                this.tasks = resp.body;
+                TaskListComponent.tasks = resp.body;
             },
             (error) => {this.snackbarService.showErrorMessage(error.message); }
         );
@@ -45,6 +45,11 @@ export class TaskListComponent implements OnInit, OnDestroy {
 
 onNewTask(): void {
   this.router.navigate(['new'], {relativeTo: this.route});
+}
+
+get getTasksValue(): TaskModel[]
+{
+  return TaskListComponent.tasks;
 }
 
 }

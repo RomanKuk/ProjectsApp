@@ -14,6 +14,7 @@ import { UserService } from '../../../../services/user.service';
 import { SnackBarService } from '../../../../services/snack-bar.service';
 import { ProjectListComponent } from '../project-list/project-list.component';
 import { ComponentCanDeactivate } from 'src/app/modules/shared/guards/unsaved-changes.guard';
+import { ProjectsComponent } from '../../projects.component';
 
 @Component({
   selector: 'app-project-edit',
@@ -164,12 +165,11 @@ public getUsers(): void {
     updatedProject.authorId = Number(formGroup.value[`authorId`]),
     updatedProject.teamId = Number(formGroup.value[`teamId`]);
 
-    console.log(updatedProject);
     this.projectService.updateProject(updatedProject)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
-        const index = this.projectListComponent.projects.findIndex(p => p.id === resp.body.id);
-        this.projectListComponent.projects[index] = resp.body;
+        const index = ProjectListComponent.projects.findIndex(p => p.id === resp.body.id);
+        ProjectListComponent.projects[index] = resp.body;
         this.isChangesSaved = true;
         this.onCancel();
       },
@@ -185,7 +185,7 @@ public getUsers(): void {
     this.projectService.createProject(createdProject)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
-        this.projectListComponent.projects.push(resp.body);
+        ProjectListComponent.projects.push(resp.body);
         this.isChangesSaved = true;
         this.onCancel(resp.body.id);
       },

@@ -69,8 +69,8 @@ export class TaskDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
       (resp) => {
-        const index = this.taskListComponent.tasks.indexOf(this.task);
-        this.taskListComponent.tasks.splice(index, 1);
+        const index = TaskListComponent.tasks.indexOf(this.task);
+        TaskListComponent.tasks.splice(index, 1);
         this.router.navigate(['../'], {relativeTo: this.route});
       },
       (error) => {this.snackbarService.showErrorMessage(error.message); }

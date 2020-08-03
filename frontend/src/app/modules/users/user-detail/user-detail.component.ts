@@ -8,6 +8,10 @@ import { takeUntil } from 'rxjs/operators';
 import { Team } from 'src/app/models/team/team.model';
 import { TeamService } from 'src/app/services/team.service';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { Project } from 'src/app/models/project/project.model';
+import { TaskModel } from 'src/app/models/task/task.model';
+import { TaskService } from 'src/app/services/task.service';
+import { ProjectService } from 'src/app/services/project.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -17,13 +21,16 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
 export class UserDetailComponent implements OnInit, OnDestroy {
   user: User;
   team: Team;
+  projects: Project[];
+  tasks: TaskModel[];
   private unsubscribe$ = new Subject<void>();
   id: number;
 
   constructor(
     private userService: UserService,
     private teamService: TeamService,
-    private userListComponent: UserListComponent,
+    private taskService: TaskService,
+    private projectService: ProjectService,
     private snackbarService: SnackBarService,
     private route: ActivatedRoute,
     private router: Router
@@ -51,7 +58,12 @@ export class UserDetailComponent implements OnInit, OnDestroy {
         .subscribe(
             (resp) => {
                 this.user = resp.body;
-                this.getTeam();
+                this.getProjects();
+                this.getTasks();
+                if (this.user.teamId != null)
+                {
+                    this.getTeam();
+                }
             },
             (error) => {this.snackbarService.showErrorMessage(error.message); }
     );
@@ -67,8 +79,8 @@ export class UserDetailComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
       (resp) => {
-        const index = this.userListComponent.users.indexOf(this.user);
-        this.userListComponent.users.splice(index, 1);
+        const index = UserListComponent.users.indexOf(this.user);
+        UserListComponent.users.splice(index, 1);
         this.router.navigate(['../'], {relativeTo: this.route});
       },
       (error) => {this.snackbarService.showErrorMessage(error.message); }
@@ -82,6 +94,30 @@ public getTeam(): void {
       .subscribe(
           (resp) => {
               this.team = resp.body;
+          },
+          (error) => {this.snackbarService.showErrorMessage(error.message); }
+      );
+}
+
+public getProjects(): void {
+  this.projectService
+      .getProjects()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+          (resp) => {
+              this.projects = resp.body.filter(item => item.author.id === this.user.id);
+          },
+          (error) => {this.snackbarService.showErrorMessage(error.message); }
+      );
+}
+
+public getTasks(): void {
+  this.taskService
+      .getTasks()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+          (resp) => {
+              this.tasks = resp.body.filter(item => item.performer.id === this.user.id);
           },
           (error) => {this.snackbarService.showErrorMessage(error.message); }
       );

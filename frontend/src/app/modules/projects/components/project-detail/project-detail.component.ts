@@ -62,8 +62,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy  {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
       (resp) => {
-        const index = this.projectListComponent.projects.indexOf(this.project);
-        this.projectListComponent.projects.splice(index, 1);
+        const index = ProjectListComponent.projects.indexOf(this.project);
+        ProjectListComponent.projects.splice(index, 1);
         this.router.navigate(['../'], {relativeTo: this.route});
       },
       (error) => {this.snackbarService.showErrorMessage(error.message); }

@@ -1,0 +1,10 @@
+<a [routerLink]=[task.id] routerLinkActive="active" class="list-group-item clearfix">
+    <div class="pull-left">
+        <div class="in-row">
+            <span class="material-icons" [appTaskStatusColor]=task.state>
+                fiber_manual_record
+                </span>
+            <h4 class="list-group-item-heading">{{ task.name }}</h4>
+        </div>
+    </div>
+</a>

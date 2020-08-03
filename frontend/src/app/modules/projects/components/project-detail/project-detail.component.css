@@ -1,0 +1,22 @@
+a {
+    cursor: pointer;
+}
+
+.fixed {
+    position: fixed;
+    margin-right: 10rem;
+    margin-left: 1rem;
+}
+
+.btn {
+    margin-bottom: 15px;
+}
+
+.tasks {
+    margin-left: 15px;
+}
+
+.material-icons {
+    font-size: 18px;
+    margin-right: 5px;
+}

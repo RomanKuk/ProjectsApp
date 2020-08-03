@@ -1,0 +1,39 @@
+<div class="row fixed">
+    <div class="col-xs-12">
+      <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                class="form-control"
+                required maxlength="100"
+                required minlength="4">
+                <div class="error" [hidden]="teamForm.get('name').valid && teamForm.get('name').untouched || !teamForm.get('name').errors?.required">
+                  Name is required
+                </div>
+                <div class="error" *ngIf="teamForm.get('name').errors?.minlength">
+                  Name must be at least 4 characters long
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 buttons">
+            <button
+                type="submit"
+                class="btn btn-success"
+                [disabled]="!teamForm.valid">Save</button>
+                <button 
+                    type="button"
+                    class="btn btn-danger" 
+                    (click)="onCancel(undefined)">Cancel</button>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  

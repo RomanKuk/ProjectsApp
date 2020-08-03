@@ -1,0 +1,45 @@
+<div class="row fixed">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>{{ user?.firstName }} {{ user?.lastName }}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="btn-group"
+          appDropdown>
+          <button
+            type="button"
+            class="btn btn-primary dropdown-toggle">
+            Manage User <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a (click)="onEditUser()">Edit User</a></li>
+            <li><a (click)="onDeleteUser()">Delete User</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>Email: {{ user?.email }}</p>
+        <p>Birthday: {{ user?.birthday | localizedDate }}</p>
+        <p>Registered at: {{ user?.registeredAt | localizedDate }}</p>
+        <p>Team: <a [routerLink]="['/teams', team?.id]" *ngIf="user?.teamId !== null; else noneTeam">{{ team?.name }}</a>
+            <ng-template #noneTeam>None</ng-template>
+        </p>
+        <div class="row">
+            <div class="col-md-7" *ngIf="tasks?.length !== 0">
+                <p>Tasks:</p>
+                <p class="tasks" *ngFor="let task of tasks">
+                    <a [routerLink]="['/tasks', task.id]">{{ task.name }}</a></p>
+            </div>
+            <div class="col-md-5" *ngIf="projects?.length !== 0">
+                <p>Projects:</p>
+                <p class="projects" *ngFor="let project of projects">
+                    <a [routerLink]="['/projects', project.id]">{{ project.name }}</a></p>
+            </div>
+        </div>
+      </div>
+    </div>
+    

@@ -7,3 +7,18 @@ textarea.ng-invalid.ng-touched {
     position: fixed;
     width: 50vw;
 }
+
+.error {
+  color: red;
+  font-size: .75em;
+}
+
+.btn {
+  margin: 5px;
+}
+
+.buttons {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}

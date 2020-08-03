@@ -1,7 +1,7 @@
 export interface TaskModelCreate{
-    name: string,
-    description: string,
-    finishedAt: string,
-    projectId: number,
-    performerId: number
+    name: string;
+    description: string;
+    finishedAt: string;
+    projectId: number;
+    performerId: number;
 }

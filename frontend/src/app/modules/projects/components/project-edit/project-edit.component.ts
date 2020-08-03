@@ -11,6 +11,7 @@ import { User } from '../../../../models/user/user.model';
 import { ProjectService } from '../../../../services/project.service';
 import { TeamService } from '../../../../services/team.service';
 import { UserService } from '../../../../services/user.service';
+import { SnackBarService } from '../../../../services/snack-bar.service';
 import { ProjectListComponent } from '../project-list/project-list.component';
 import { ComponentCanDeactivate } from 'src/app/modules/shared/guards/unsaved-changes.guard';
 
@@ -27,12 +28,15 @@ export class ProjectEditComponent implements OnInit, OnDestroy, ComponentCanDeac
   projectForm: FormGroup;
   editMode = false;
   isChangesSaved = false;
+  today: Date;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
     private projectService: ProjectService,
     private teamService: TeamService,
     private userService: UserService,
+    private snackbarService: SnackBarService,
+    private projectListComponent: ProjectListComponent,
     private route: ActivatedRoute,
     private router: Router
   ) { }
@@ -51,6 +55,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy, ComponentCanDeac
             this.initFormCreate();
             this.getUsers();
             this.getTeams();
+            this.today = new Date();
             if (this.editMode)
             {
               this.getProject(+params[`id`]);
@@ -81,7 +86,12 @@ export class ProjectEditComponent implements OnInit, OnDestroy, ComponentCanDeac
     this.router.navigate(['../'], {relativeTo: this.route});
   }
   onCancelCreate(id: number): void {
-    this.router.navigate([`../${id}`], {relativeTo: this.route});
+    if (id !== null)
+    {
+      this.router.navigate([`../${id}`], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['../'], {relativeTo: this.route});
+    }
   }
 
   public ngOnDestroy(): void {
@@ -98,7 +108,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy, ComponentCanDeac
                 this.project = resp.body;
                 this.initFormEdit(this.project);
             },
-            () => {console.error(); }
+            (error) => {this.snackbarService.showErrorMessage(error.message); }
     );
   }
 
@@ -113,11 +123,10 @@ export class ProjectEditComponent implements OnInit, OnDestroy, ComponentCanDeac
   }
 
   private initFormEdit(project: Project): void {
-
     this.projectForm = new FormGroup({
       name: new FormControl(project.name, Validators.required),
       description : new FormControl(project.description, Validators.required),
-      deadline : new FormControl(new Date(project.deadline).toISOString().slice(0, 10),
+      deadline : new FormControl(new Date(project.deadline).toLocaleDateString('en-CA'),
         Validators.required),
       authorId : new FormControl(project.author.id, Validators.required),
       teamId : new FormControl(project.team.id, Validators.required)
@@ -132,7 +141,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy, ComponentCanDeac
           (resp) => {
               this.teams = resp.body;
           },
-          () => {console.error(); }
+          (error) => {this.snackbarService.showErrorMessage(error.message); }
       );
 }
 
@@ -144,7 +153,7 @@ public getUsers(): void {
           (resp) => {
               this.users = resp.body;
           },
-          () => {console.error(); }
+          (error) => {this.snackbarService.showErrorMessage(error.message); }
       );
 }
 
@@ -159,12 +168,12 @@ public getUsers(): void {
     this.projectService.updateProject(updatedProject)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
-        const index = ProjectListComponent.projects.findIndex(p => p.id === resp.body.id);
-        ProjectListComponent.projects[index] = resp.body;
+        const index = this.projectListComponent.projects.findIndex(p => p.id === resp.body.id);
+        this.projectListComponent.projects[index] = resp.body;
         this.isChangesSaved = true;
         this.onCancel();
       },
-      (error) => console.log(error));
+      (error) => this.snackbarService.showErrorMessage(error.message));
  }
 
  private createProject(formGroup: FormGroup): void
@@ -176,11 +185,11 @@ public getUsers(): void {
     this.projectService.createProject(createdProject)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((resp) => {
-        ProjectListComponent.projects.push(resp.body);
+        this.projectListComponent.projects.push(resp.body);
         this.isChangesSaved = true;
         this.onCancel(resp.body.id);
       },
-      (error) => console.log(error));
+      (error) => {this.snackbarService.showErrorMessage(error.message); } );
  }
 
 }

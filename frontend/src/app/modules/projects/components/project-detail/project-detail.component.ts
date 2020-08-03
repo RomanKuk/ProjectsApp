@@ -15,15 +15,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy  {
   project: Project;
   private unsubscribe$ = new Subject<void>();
   id: number;
-  dateOptions = {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-};
 
   constructor(
     private projectService: ProjectService,
+    private projectListComponent: ProjectListComponent,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -65,8 +60,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy  {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
       (resp) => {
-        const index = ProjectListComponent.projects.indexOf(this.project);
-        ProjectListComponent.projects.splice(index, 1);
+        const index = this.projectListComponent.projects.indexOf(this.project);
+        this.projectListComponent.projects.splice(index, 1);
         this.router.navigate(['../'], {relativeTo: this.route});
       },
       () => {console.error(); }

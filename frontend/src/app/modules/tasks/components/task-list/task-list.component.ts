@@ -1,29 +1,29 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { TaskModel } from 'src/app/models/task/task.model';
+import { TaskService } from '../../../../services/task.service';
 import { Subject } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { Project } from '../../../../models/project/project.model';
-import { ProjectService } from '../../../../services/project.service';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
-  selector: 'app-project-list',
-  templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.css']
+  selector: 'app-task-list',
+  templateUrl: './task-list.component.html',
+  styleUrls: ['./task-list.component.css']
 })
-export class ProjectListComponent implements OnInit, OnDestroy {
-  projects: Project[] = [];
+export class TaskListComponent implements OnInit, OnDestroy {
+  tasks: TaskModel[] = [];
   private unsubscribe$ = new Subject<void>();
 
   constructor(
-    private projectService: ProjectService,
+    private taskService: TaskService,
     private snackbarService: SnackBarService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.getProjects();
+    this.getTasks();
   }
 
   public ngOnDestroy(): void {
@@ -31,19 +31,19 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
 }
 
-  public getProjects(): void {
-    this.projectService
-        .getProjects()
+  public getTasks(): void {
+    this.taskService
+        .getTasks()
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
             (resp) => {
-                this.projects = resp.body;
+                this.tasks = resp.body;
             },
             (error) => {this.snackbarService.showErrorMessage(error.message); }
         );
 }
 
-onNewProject(): void {
+onNewTask(): void {
   this.router.navigate(['new'], {relativeTo: this.route});
 }
 

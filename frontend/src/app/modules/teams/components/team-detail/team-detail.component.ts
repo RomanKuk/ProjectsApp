@@ -1,25 +1,25 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Team } from 'src/app/models/team/team.model';
 import { Subject } from 'rxjs';
+import { TeamService } from 'src/app/services/team.service';
+import { TeamListComponent } from '../team-list/team-list.component';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { Project } from '../../../../models/project/project.model';
-import { ProjectService } from '../../../../services/project.service';
-import { ProjectListComponent } from '../project-list/project-list.component';
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
-  selector: 'app-project-detail',
-  templateUrl: './project-detail.component.html',
-  styleUrls: ['./project-detail.component.css']
+  selector: 'app-team-detail',
+  templateUrl: './team-detail.component.html',
+  styleUrls: ['./team-detail.component.css']
 })
-export class ProjectDetailComponent implements OnInit, OnDestroy  {
-  project: Project;
+export class TeamDetailComponent implements OnInit, OnDestroy {
+  team: Team;
   private unsubscribe$ = new Subject<void>();
   id: number;
 
   constructor(
-    private projectService: ProjectService,
-    private projectListComponent: ProjectListComponent,
+    private teamService: TeamService,
+    private teamListComponent: TeamListComponent,
     private snackbarService: SnackBarService,
     private route: ActivatedRoute,
     private router: Router
@@ -30,7 +30,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy  {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         (params: Params) => {
-            this.getProject(+params[`id`]);
+            this.getTeam(+params[`id`]);
         }
       );
   }
@@ -40,34 +40,33 @@ export class ProjectDetailComponent implements OnInit, OnDestroy  {
     this.unsubscribe$.complete();
   }
 
-  public getProject(id: number): void {
-    this.projectService
-        .getProjectById(id)
+  public getTeam(id: number): void {
+    this.teamService
+        .getTeamById(id)
         .pipe(takeUntil(this.unsubscribe$))
         .subscribe(
             (resp) => {
-                this.project = resp.body;
+                this.team = resp.body;
             },
             (error) => {this.snackbarService.showErrorMessage(error.message); }
     );
   }
 
-  onEditProject(): void {
+  onEditTeam(): void {
     this.router.navigate(['edit'], {relativeTo: this.route});
   }
 
-  onDeleteProject(): void {
-    this.projectService
-      .deleteProjectById(this.project.id)
+  onDeleteTeam(): void {
+    this.teamService
+      .deleteTeamById(this.team.id)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(
       (resp) => {
-        const index = this.projectListComponent.projects.indexOf(this.project);
-        this.projectListComponent.projects.splice(index, 1);
+        const index = this.teamListComponent.teams.indexOf(this.team);
+        this.teamListComponent.teams.splice(index, 1);
         this.router.navigate(['../'], {relativeTo: this.route});
       },
       (error) => {this.snackbarService.showErrorMessage(error.message); }
   );
 }
-
 }

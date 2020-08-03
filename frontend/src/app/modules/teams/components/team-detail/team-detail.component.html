@@ -1,0 +1,31 @@
+<div class="row fixed">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>{{ team?.name }}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="btn-group"
+          appDropdown>
+          <button
+            type="button"
+            class="btn btn-primary dropdown-toggle">
+            Manage Team <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a (click)="onEditTeam()">Edit Team</a></li>
+            <li><a (click)="onDeleteTeam()">Delete Team</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>Created at: {{ team?.createdAt | localizedDate }}</p>
+        <p *ngIf="team?.participants.length !== 0">Participants:</p>
+        <p class="participants" *ngFor="let user of team?.participants">
+            <a href="#">{{ user.firstName }} {{ user.lastName }}</a></p>
+      </div>
+    </div>
+    

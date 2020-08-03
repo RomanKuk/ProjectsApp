@@ -1,0 +1,31 @@
+<div class="row fixed">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>{{ user?.firstName }} {{ user?.lastName }}</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="btn-group"
+          appDropdown>
+          <button
+            type="button"
+            class="btn btn-primary dropdown-toggle">
+            Manage User <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a (click)="onEditUser()">Edit User</a></li>
+            <li><a (click)="onDeleteUser()">Delete User</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>Email: {{ user?.email }}</p>
+        <p>Birthday: {{ user?.birthday | localizedDate }}</p>
+        <p>Registered at: {{ user?.registeredAt | localizedDate }}</p>
+        <p>Team: <a href="#">{{ team?.name }}</a></p>
+      </div>
+    </div>
+    

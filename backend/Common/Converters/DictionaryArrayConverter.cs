@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Common.Converters
 {
-    public class DictionaryArrayConverter : DefaultContractResolver
+    public DictionaryArrayConverter : DefaultContractResolver
     {
         protected override JsonContract CreateContract(Type objectType)
         {
